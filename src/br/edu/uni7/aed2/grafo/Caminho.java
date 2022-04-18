@@ -44,6 +44,9 @@ public class Caminho {
         Integer[] d = new Integer[n.size()];
         Vertice[] p = new Vertice[n.size()];
 
+        d[x.getValor()] = 0;
+        p[x.getValor()] = x;
+
         for (Aresta aresta : x.getArestas()) {
             int vizinho = aresta.getVizinho(x).getValor();
             d[vizinho] = aresta.getPeso();
