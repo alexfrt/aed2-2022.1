@@ -22,6 +22,16 @@ public class Vertice {
         return arestas;
     }
 
+    public Aresta getAresta(Vertice vizinho) {
+        for (Aresta aresta : arestas) {
+            if (aresta.getVizinho(this).equals(vizinho)) {
+                return aresta;
+            }
+        }
+
+        throw new IllegalArgumentException("O vertice recebido não é vizinho deste vértice");
+    }
+
     public void adicionar(Aresta aresta) {
         arestas.add(aresta);
     }

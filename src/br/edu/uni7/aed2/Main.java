@@ -20,9 +20,16 @@ public class Main {
         Grafo grafo = Grafo.lerMatrizDeAdjacencia(matrizAdjacencia);
         System.out.println(grafo);
 
+        grafo.getAresta(grafo.getVertice(0), grafo.getVertice(1)).setPeso(10);
+        grafo.getAresta(grafo.getVertice(0), grafo.getVertice(2)).setPeso(16);
+        grafo.getAresta(grafo.getVertice(2), grafo.getVertice(1)).setPeso(5);
+        grafo.getAresta(grafo.getVertice(1), grafo.getVertice(3)).setPeso(24);
+        grafo.getAresta(grafo.getVertice(2), grafo.getVertice(4)).setPeso(3);
+        grafo.getAresta(grafo.getVertice(3), grafo.getVertice(4)).setPeso(7);
+
         Vertice x = grafo.getVertice(0);
-        Vertice y = grafo.getVertice(4);
-        Caminho caminho = Caminho.encontrarCaminho(grafo, x, y);
+        Vertice y = grafo.getVertice(3);
+        Caminho caminho = Caminho.dijkstra(grafo, x, y);
         System.out.println("O caminho entre 0 e 4 é: " + caminho);
     }
 }

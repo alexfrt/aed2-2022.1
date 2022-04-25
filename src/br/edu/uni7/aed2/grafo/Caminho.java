@@ -54,14 +54,47 @@ public class Caminho {
         }
 
         while (!n.isEmpty()) {
-            //selecionar vértice 'v' cujo valor em 'd' seja o menor
-            //para cada vizinho 'j' do vértice 'v',
-            // calcule o custo 'c' do caminho v-j se 'j' não estiver em 'n'
-            // se 'c' for menor que o valor de 'j' em 'd', atualize 'd' e 'p'
-            //remova 'v' de 'n'
+            Vertice verticeSelecionado = null;
+            for (Vertice verticeAtual : n) {
+                int valorDoVerticeAtual = verticeAtual.getValor();
+                if (d[valorDoVerticeAtual] == null) {
+                    continue;
+                }
+
+                if (verticeSelecionado == null) {
+                    verticeSelecionado = verticeAtual;
+                } else {
+                    if (d[valorDoVerticeAtual] < d[verticeSelecionado.getValor()]) {
+                        verticeSelecionado = verticeAtual;
+                    }
+                }
+            }
+
+            n.remove(verticeSelecionado);
+
+            for (Aresta aresta : verticeSelecionado.getArestas()) {
+                Vertice vizinho = aresta.getVizinho(verticeSelecionado);
+
+                if (n.contains(vizinho)) {
+                    int novoCusto = d[verticeSelecionado.getValor()] + aresta.getPeso();
+                    if (d[vizinho.getValor()] == null || novoCusto < d[vizinho.getValor()]) {
+                        d[vizinho.getValor()] = novoCusto;
+                        p[vizinho.getValor()] = verticeSelecionado;
+                    }
+                }
+            }
         }
 
-        return null;
+        List<Aresta> caminho = new ArrayList<>();
+        Vertice vertice = y;
+
+        while (!vertice.equals(x)) {
+            Vertice predecessor = p[vertice.getValor()];
+            caminho.add(0, predecessor.getAresta(vertice));
+            vertice = predecessor;
+        }
+
+        return new Caminho(caminho);
     }
 
 }

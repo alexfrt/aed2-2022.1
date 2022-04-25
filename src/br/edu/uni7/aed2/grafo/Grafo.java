@@ -24,6 +24,17 @@ public class Grafo {
         return arestas;
     }
 
+    public Aresta getAresta(Vertice a, Vertice b) {
+        Aresta temp = new Aresta(a, b);
+        for (Aresta aresta : arestas) {
+            if (aresta.equals(temp)) {
+                return aresta;
+            }
+        }
+
+        return null;
+    }
+
     public Vertice getVertice(int valor) {
         for (Vertice vertice : vertices) {
             if (vertice.getValor() == valor)
