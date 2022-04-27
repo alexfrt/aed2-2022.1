@@ -1,34 +1,34 @@
 package br.edu.uni7.aed2.grafo;
 
-public class Aresta<V> {
+public class Aresta<V, E> {
 
-    private final String descricao;
-    private final Vertice<V> verticeA;
-    private final Vertice<V> verticeB;
+    private final E descricao;
+    private final Vertice<V, E> verticeA;
+    private final Vertice<V, E> verticeB;
     private Integer peso;
 
-    public Aresta(Vertice<V> verticeA, Vertice<V> verticeB) {
+    public Aresta(Vertice<V, E> verticeA, Vertice<V, E> verticeB) {
         this.descricao = null;
         this.verticeA = verticeA;
         this.verticeB = verticeB;
         this.peso = 0;
     }
 
-    public Aresta(Vertice<V> verticeA, Vertice<V> verticeB, Integer peso) {
+    public Aresta(Vertice<V, E> verticeA, Vertice<V, E> verticeB, Integer peso) {
         this.descricao = null;
         this.verticeA = verticeA;
         this.verticeB = verticeB;
         this.peso = peso;
     }
 
-    public Aresta(String descricao, Vertice<V> verticeA, Vertice<V> verticeB, Integer peso) {
+    public Aresta(E descricao, Vertice<V, E> verticeA, Vertice<V, E> verticeB, Integer peso) {
         this.descricao = descricao;
         this.verticeA = verticeA;
         this.verticeB = verticeB;
         this.peso = peso;
     }
 
-    public String getDescricao() {
+    public E getDescricao() {
         return descricao;
     }
 
@@ -40,15 +40,15 @@ public class Aresta<V> {
         this.peso = peso;
     }
 
-    public Vertice<V> getVerticeA() {
+    public Vertice<V, E> getVerticeA() {
         return verticeA;
     }
 
-    public Vertice<V> getVerticeB() {
+    public Vertice<V, E> getVerticeB() {
         return verticeB;
     }
 
-    public Vertice<V> getVizinho(Vertice<V> vertice) {
+    public Vertice<V, E> getVizinho(Vertice<V, E> vertice) {
         if (getVerticeA() != vertice && getVerticeB() == vertice) {
             return getVerticeA();
         } else if (getVerticeA() == vertice && getVerticeB() != vertice) {
@@ -58,7 +58,7 @@ public class Aresta<V> {
         throw new IllegalArgumentException("O vértice informado não pertence a esta aresta");
     }
 
-    public boolean pertence(Vertice<V> vertice) {
+    public boolean pertence(Vertice<V, E> vertice) {
         return vertice.equals(verticeA) || vertice.equals(verticeB);
     }
 
@@ -66,7 +66,7 @@ public class Aresta<V> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Aresta<V> aresta = (Aresta<V>) o;
+        Aresta<?, ?> aresta = (Aresta<?, ?>) o;
         return (verticeA.equals(aresta.verticeA) && verticeB.equals(aresta.verticeB) ||
                 verticeA.equals(aresta.verticeB) && verticeB.equals(aresta.verticeA));
     }
