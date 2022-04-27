@@ -44,7 +44,7 @@ public class Grafo<V, E> {
         throw new IllegalArgumentException("Vértice de valor inexistente no grafo");
     }
 
-    public void bfs(Vertice<V, E> inicio, Visitante visitante) {
+    public void bfs(Vertice<V, E> inicio, Visitante<V, E> visitante) {
         Queue<Vertice<V, E>> fila = new LinkedList<>();
         Queue<Aresta<V, E>> filaArestas = new LinkedList<>();
         Set<Vertice<V, E>> visitados = new HashSet<>();
@@ -71,7 +71,7 @@ public class Grafo<V, E> {
         }
     }
 
-    public void dfs(Vertice<V, E> inicio, Visitante visitante) {
+    public void dfs(Vertice<V, E> inicio, Visitante<V, E> visitante) {
         Stack<Vertice<V, E>> pilha = new Stack<>();
         Stack<Aresta<V, E>> pilhaArestas = new Stack<>();
         Set<Vertice<V, E>> visitados = new HashSet<>();

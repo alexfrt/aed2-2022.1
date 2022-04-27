@@ -2,11 +2,11 @@ package br.edu.uni7.aed2.grafo;
 
 import java.util.*;
 
-public class Caminho {
+public class Caminho<G extends Grafo<V, E>, V, E> {
 
-    private final List<Aresta> arestas;
+    private final List<Aresta<V, E>> arestas;
 
-    public Caminho(List<Aresta> arestas) {
+    public Caminho(List<Aresta<V, E>> arestas) {
         this.arestas = arestas;
     }
 
@@ -15,8 +15,8 @@ public class Caminho {
         return arestas.toString();
     }
 
-    public static Caminho encontrarCaminho(Grafo grafo, Vertice x, Vertice y) {
-        Stack<Aresta> percurso = new Stack<>();
+    public static <G extends Grafo<V, E>, V, E> Caminho<G, V, E> encontrarCaminho(G grafo, Vertice<V, E> x, Vertice<V, E> y) {
+        Stack<Aresta<V, E>> percurso = new Stack<>();
         grafo.bfs(x, ((vertice, aresta) -> {
             if (aresta != null) {
                 percurso.push(aresta);
@@ -25,46 +25,49 @@ public class Caminho {
             return vertice.equals(y);
         }));
 
-        List<Aresta> caminhoXY = new ArrayList<>();
-        Vertice verticeFinal = y;
+        List<Aresta<V, E>> caminhoXY = new ArrayList<>();
+        Vertice<V, E> verticeFinal = y;
 
         while (!percurso.isEmpty()) {
-            Aresta aresta = percurso.pop();
+            Aresta<V, E> aresta = percurso.pop();
             if (aresta.pertence(verticeFinal)) {
                 verticeFinal = aresta.getVizinho(verticeFinal);
                 caminhoXY.add(0, aresta);
             }
         }
 
-        return new Caminho(caminhoXY);
+        return new Caminho<>(caminhoXY);
     }
 
-    public static Caminho dijkstra(Grafo grafo, Vertice x, Vertice y) {
-        Set<Vertice> n = new HashSet<>(grafo.getVertices());
-        Integer[] d = new Integer[n.size()];
-        Vertice[] p = new Vertice[n.size()];
+    public static <G extends Grafo<V, E>, V, E> Caminho<G, V, E> dijkstra(G grafo, Vertice<V, E> x, Vertice<V, E> y) {
+        Set<Vertice<V, E>> n = new HashSet<>(grafo.getVertices());
+        Map<Vertice<V, E>, Integer> d = new HashMap<>();
+        Map<Vertice<V, E>, Vertice<V, E>> p = new HashMap<>();
 
-        d[x.getValor()] = 0;
-        p[x.getValor()] = x;
+        for (Vertice<V, E> vertice : grafo.getVertices()) {
+            d.put(vertice, null);
+            p.put(vertice, null);
+        }
+        d.put(x, 0);
+        p.put(x, x);
 
-        for (Aresta aresta : x.getArestas()) {
-            int vizinho = aresta.getVizinho(x).getValor();
-            d[vizinho] = aresta.getPeso();
-            p[vizinho] = x;
+        for (Aresta<V, E> aresta : x.getArestas()) {
+            Vertice<V, E> vizinho = aresta.getVizinho(x);
+            d.put(vizinho, aresta.getPeso());
+            p.put(vizinho, x);
         }
 
         while (!n.isEmpty()) {
-            Vertice verticeSelecionado = null;
-            for (Vertice verticeAtual : n) {
-                int valorDoVerticeAtual = verticeAtual.getValor();
-                if (d[valorDoVerticeAtual] == null) {
+            Vertice<V, E> verticeSelecionado = null;
+            for (Vertice<V, E> verticeAtual : n) {
+                if (d.get(verticeAtual) == null) {
                     continue;
                 }
 
                 if (verticeSelecionado == null) {
                     verticeSelecionado = verticeAtual;
                 } else {
-                    if (d[valorDoVerticeAtual] < d[verticeSelecionado.getValor()]) {
+                    if (d.get(verticeAtual) < d.get(verticeSelecionado)) {
                         verticeSelecionado = verticeAtual;
                     }
                 }
@@ -72,29 +75,29 @@ public class Caminho {
 
             n.remove(verticeSelecionado);
 
-            for (Aresta aresta : verticeSelecionado.getArestas()) {
-                Vertice vizinho = aresta.getVizinho(verticeSelecionado);
+            for (Aresta<V, E> aresta : verticeSelecionado.getArestas()) {
+                Vertice<V, E> vizinho = aresta.getVizinho(verticeSelecionado);
 
                 if (n.contains(vizinho)) {
-                    int novoCusto = d[verticeSelecionado.getValor()] + aresta.getPeso();
-                    if (d[vizinho.getValor()] == null || novoCusto < d[vizinho.getValor()]) {
-                        d[vizinho.getValor()] = novoCusto;
-                        p[vizinho.getValor()] = verticeSelecionado;
+                    int novoCusto = d.get(verticeSelecionado) + aresta.getPeso();
+                    if (d.get(vizinho) == null || novoCusto < d.get(vizinho)) {
+                        d.put(vizinho, novoCusto);
+                        p.put(vizinho, verticeSelecionado);
                     }
                 }
             }
         }
 
-        List<Aresta> caminho = new ArrayList<>();
-        Vertice vertice = y;
+        List<Aresta<V, E>> caminho = new ArrayList<>();
+        Vertice<V, E> vertice = y;
 
         while (!vertice.equals(x)) {
-            Vertice predecessor = p[vertice.getValor()];
+            Vertice<V, E> predecessor = p.get(vertice);
             caminho.add(0, predecessor.getAresta(vertice));
             vertice = predecessor;
         }
 
-        return new Caminho(caminho);
+        return new Caminho<>(caminho);
     }
 
 }

@@ -26,7 +26,7 @@ public class Main {
 
         Vertice<Integer, Void> x = grafo.getVertice(0);
         Vertice<Integer, Void> y = grafo.getVertice(3);
-        Caminho caminho = Caminho.dijkstra(grafo, x, y);
+        var caminho = Caminho.dijkstra(grafo, x, y);
         System.out.println("O caminho entre 0 e 4 é: " + caminho);
     }
-}s
+}
