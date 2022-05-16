@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Grafo<V, E> {
 
-    private final Set<Vertice<V, E>> vertices;
-    private final Set<Aresta<V, E>> arestas;
+    protected final Set<Vertice<V, E>> vertices;
+    protected final Set<Aresta<V, E>> arestas;
 
     public Grafo(Set<Vertice<V, E>> vertices) {
         this.vertices = vertices;
