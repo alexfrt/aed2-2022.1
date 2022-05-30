@@ -1,21 +1,25 @@
 package br.edu.uni7.aed2.grafo;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Vertice<V, E> {
 
     private final V valor;
+    private Integer cor;
     private final Set<Aresta<V, E>> arestas;
 
     public Vertice(V valor) {
         this.valor = valor;
         this.arestas = new HashSet<>();
+        this.cor = null;
     }
 
     public V getValor() {
         return valor;
+    }
+
+    public Integer getCor() {
+        return cor;
     }
 
     public Set<Aresta<V, E>> getArestas() {
@@ -52,5 +56,20 @@ public class Vertice<V, E> {
     @Override
     public String toString() {
         return String.valueOf(valor);
+    }
+
+    public void colorir() {
+        Set<Integer> coresDosVizinhos = new HashSet<>();
+        for (var aresta : arestas) {
+            Integer cor = aresta.getVizinho(this).getCor();
+            coresDosVizinhos.add(cor);
+        }
+
+        for (int i = 0; i < coresDosVizinhos.size(); i++) {
+            if (!coresDosVizinhos.contains(i)) {
+                this.cor = i;
+                break;
+            }
+        }
     }
 }

@@ -97,6 +97,12 @@ public class Grafo<V, E> {
         }
     }
 
+    public void colorir() {
+        for (var vertice : vertices) {
+            vertice.colorir();
+        }
+    }
+
     @Override
     public String toString() {
         return "G(V=" + vertices + ", E=" + arestas + ")";
