@@ -3,11 +3,16 @@ package br.edu.uni7.aed2.grafo;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Arvore<V, E> extends Grafo<V, E> {
 
     public Arvore() {
         super(new HashSet<>());
+    }
+
+    public Arvore(Set<Vertice<V, E>> verticesDaArvore) {
+        super(verticesDaArvore);
     }
 
     public void addVertice(Vertice<V, E> vertice) {
